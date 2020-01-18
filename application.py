@@ -11,17 +11,11 @@ from dotenv import load_dotenv
 
 from helpers import login_required, apology
 
-# TESTING GIT
-
-
 
 # LOAD ENV VARIABLES
 load_dotenv() 
 # GOODREADS API KEY
 key = os.getenv("KEY")
-
-
-# TODO: SET UP DATABASE
 
 app = Flask(__name__)
 
