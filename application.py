@@ -50,6 +50,20 @@ def index():
 
     return render_template("index.html")
 
+@app.route("/autocomplete", methods=["GET"])
+def autocomplete():
+    isbn = request.args.get("isbn")
+    title = request.args.get("title")
+    author = request.args.get("author")
+
+    query = db.execute("SELECT title FROM imbooks WHERE UPPER(title) LIKE UPPER(:title)", {"title": '%'+title+'%'}).fetchall()
+    db.commit()
+    results = [title[0] for title in query]
+    return jsonify(results)
+
+
+
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
     """Log user in"""

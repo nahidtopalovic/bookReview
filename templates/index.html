@@ -11,14 +11,18 @@
         <h1 class="display-4">Hello, book lovers!</h1>
         <p class="lead">Here you will find book reviews and ratings. You can also leave your own reviews and read ratings from Goodreads.</p>
         <hr class="my-4">
-        <form action="/books" method="GET">
+        <form action="/autocomplete" method="GET">
             <div class="form-group">
-              <label for="bookquery">Search here!</label>
-              <input type="text" class="form-control" name="bookquery" id="bookquery" placeholder="1984, Little prince">
+                <input type="text" class="form-control" name="isbn" id="isbn" placeholder="ISBN">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" name="title" id="title" list="book_list" placeholder="Book title">
+                <datalist id="book_list"></datalist>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" name="author" id="author" placeholder="Author of the book">
             </div>
             <button class="btn btn-success btn-lg"  role="button">Search</button>
-        <!-- here it ends -->
-    </div>
         </form>
 
 </div>
