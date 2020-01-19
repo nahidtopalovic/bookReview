@@ -54,3 +54,25 @@ function hinter(event){
     }
 
 }
+
+
+// validation of from
+
+function validateForm(){
+    // Get the input element
+    let input = document.getElementById("title");
+    // get the datalist
+    let book_list = document.getElementById("book_list");
+
+    // if we find the input inside our list, we submit the form
+    for (let element of book_list.children){
+        if(element.value == input.value){
+            return true;
+        }
+    }
+
+    // we send an error message
+    alert("input is invalid")
+    return false
+
+}

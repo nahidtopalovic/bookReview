@@ -11,7 +11,7 @@
         <h1 class="display-4">Hello, book lovers!</h1>
         <p class="lead">Here you will find book reviews and ratings. You can also leave your own reviews and read ratings from Goodreads.</p>
         <hr class="my-4">
-        <form action="/autocomplete" method="GET">
+        <form onsubmit="return validateForm()">
             <div class="form-group">
                 <input type="text" class="form-control" name="isbn" id="isbn" placeholder="ISBN">
             </div>
