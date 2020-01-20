@@ -1,7 +1,10 @@
 window.addEventListener("load", function(){
     // Add a keyup event listener to our input element
     let title = document.getElementById('title');
-    title.addEventListener("keyup", function(event){hinter(event)});
+    title.addEventListener("keyup", function(event){hinter(event, "book_list", "title=")});
+
+    let author = document.getElementById('author');
+    author.addEventListener("keyup", function(event){hinter(event, "author_list","author=")})
 
     // create one global XHR object
     // so we can abort old request when a new one is made
@@ -10,13 +13,13 @@ window.addEventListener("load", function(){
 
 // Autocomplete for form
 
-function hinter(event){
+function hinter(event, className, arg ){
 
     // retrieve the input element
     let input = event.target;
 
     // retrieve the datalist element
-    let book_list = document.getElementById("book_list");
+    let book_list = document.getElementById(className);
 
     // minimum num of characters before we start to generate suggestions
     let min_characters = 2;
@@ -32,8 +35,6 @@ function hinter(event){
                 // we're expecting a json response so we convert it to an object
                 let response = JSON.parse(this.responseText);
 
-                console.log(response)
-
                 // clear any previously loaded options in the datalist
                 book_list.innerHTML = "";
 
@@ -48,8 +49,7 @@ function hinter(event){
                 })
             }
         }
-        console.log(input.value);
-        window.hinterXHR.open("GET", "/autocomplete?title=" + input.value, true);
+        window.hinterXHR.open("GET", "/autocomplete?"+arg + input.value, true);
         window.hinterXHR.send();
     }
 
