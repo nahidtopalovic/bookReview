@@ -58,7 +58,7 @@ function hinter(event, className, arg ){
 
 }
 
-
+// fix validation of form
 // validation of from
 
 function validateForm(){

@@ -75,7 +75,9 @@ def autocomplete():
 @app.route("/books", methods=["GET"])
 def books():
     # TODO
-    return request.args.get("title")
+    flash("No such book found")
+
+    return render_template("books.html")
 
 
 
