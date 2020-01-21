@@ -57,9 +57,10 @@ def autocomplete():
     author = request.args.get("author")
 
     if isbn:
-        query = db.execute("SELECT isbn FROM imbooks WHERE isbn = :isbn", {"isbn":int(isbn)}).fetchone()
+        query = db.execute("SELECT isbn FROM imbooks WHERE isbn LIKE :isbn", {"isbn": '%'+isbn+'%'}).fetchall()
         db.commit()
-        return jsonify(query)
+        results = [isbn[0] for isbn in query]
+        return jsonify(results)
     elif title:
         query = db.execute("SELECT title FROM imbooks WHERE UPPER(title) LIKE UPPER(:title)", {"title": '%'+title+'%'}).fetchall()
         db.commit()
@@ -70,6 +71,11 @@ def autocomplete():
         db.commit()
         results = [author[0] for author in query]
         return jsonify(results)
+
+@app.route("/books", methods=["GET"])
+def books():
+    # TODO
+    return request.args.get("title")
 
 
 

@@ -6,6 +6,9 @@ window.addEventListener("load", function(){
     let author = document.getElementById('author');
     author.addEventListener("keyup", function(event){hinter(event, "author_list","author=")})
 
+    let isbn = document.getElementById('isbn');
+    isbn.addEventListener("keyup", function(event){hinter(event, "isbn_list", "isbn=")})
+
     // create one global XHR object
     // so we can abort old request when a new one is made
     window.hinterXHR = new XMLHttpRequest();
