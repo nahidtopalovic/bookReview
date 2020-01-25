@@ -1,4 +1,4 @@
-body {
+.index-body {
     background-image: url("bg-image1.jpg");
     background-color: #cccccc;
     background-repeat: no-repeat;
@@ -11,4 +11,12 @@ body {
     background: rgb(211, 211, 211); /* This is for ie8 and below */
     background: rgba(211, 211, 211, 0.6); 
  }
+
+ .book-img {
+     border-radius: 8px;
+     max-width: 70%;
+     max-height: 100% 
+ }
+
+
    

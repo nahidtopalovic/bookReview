@@ -57,27 +57,57 @@ def autocomplete():
     author = request.args.get("author")
 
     if isbn:
-        query = db.execute("SELECT isbn FROM imbooks WHERE isbn LIKE :isbn", {"isbn": '%'+isbn+'%'}).fetchall()
+        query = db.execute("SELECT isbn FROM imbooks WHERE isbn LIKE :isbn LIMIT 10", {"isbn": '%'+isbn+'%'}).fetchall()
         db.commit()
         results = [isbn[0] for isbn in query]
         return jsonify(results)
     elif title:
-        query = db.execute("SELECT title FROM imbooks WHERE UPPER(title) LIKE UPPER(:title)", {"title": '%'+title+'%'}).fetchall()
+        query = db.execute("SELECT title FROM imbooks WHERE UPPER(title) LIKE UPPER(:title) LIMIT 10", {"title": '%'+title+'%'}).fetchall()
         db.commit()
         results = [title[0] for title in query]
+        print(f"Results of autocomplete title query: {results}")
+        print(f" Jsonified results: {jsonify(results)}")
         return jsonify(results)
     elif author:
-        query = db.execute("SELECT author FROM imbooks WHERE UPPER(author) LIKE UPPER(:author)", {"author": '%'+author+'%'}).fetchall()
+        query = db.execute("SELECT author FROM imbooks WHERE UPPER(author) LIKE UPPER(:author) LIMIT 10", {"author": '%'+author+'%'}).fetchall()
         db.commit()
         results = [author[0] for author in query]
         return jsonify(results)
 
 @app.route("/books", methods=["GET"])
 def books():
-    # TODO
-    flash("No such book found")
+    # Book Page: When users click on a book from the results of 
+    # the search page, they should be taken to a book page, 
+    # with details about the book: its title, author, publication year, ISBN number,
+    #  and any reviews that users have left for the book on your website.
+    isbn = request.args.get("isbn")
+    title = request.args.get("title")
+    author = request.args.get("author")
 
-    return render_template("books.html")
+    if not isbn and not title and not author:
+        return apology("You need to enter isbn, book title or author''s name", 403)
+
+    if isbn:
+        query = db.execute("SELECT * FROM imbooks WHERE isbn = :isbn", {"isbn": isbn}).fetchone()
+        db.commit()
+        result = query
+
+    elif title:
+        query = db.execute("SELECT * FROM imbooks WHERE UPPER(title) = UPPER(:title)", {"title": title}).fetchone()
+        db.commit()
+        result = query
+
+    elif author:
+        query = db.execute("SELECT * FROM imbooks WHERE UPPER(author) = UPPER(:author)", {"author": author}).fetchone()
+        db.commit()
+        result = query
+    
+    if result:
+        return render_template("books.html", result=result)
+    else:
+        flash("No such a book")
+        return render_template("books.html")
+    
 
 
 
