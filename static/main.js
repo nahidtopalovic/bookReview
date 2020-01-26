@@ -9,9 +9,12 @@ window.addEventListener("load", function(){
     let isbn = document.getElementById('isbn');
     isbn.addEventListener("keyup", function(event){hinter(event, "isbn_list", "isbn=")})
 
+    let anchor = document.getElementById("search-anchor")
+
     // create one global XHR object
     // so we can abort old request when a new one is made
     window.hinterXHR = new XMLHttpRequest();
+    
 });
 
 // Autocomplete for form

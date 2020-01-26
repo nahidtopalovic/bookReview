@@ -57,25 +57,38 @@ def autocomplete():
     author = request.args.get("author")
 
     if isbn:
-        query = db.execute("SELECT isbn FROM imbooks WHERE isbn LIKE :isbn LIMIT 10", {"isbn": '%'+isbn+'%'}).fetchall()
+        query = db.execute("SELECT bookid, isbn FROM imbooks WHERE isbn LIKE :isbn LIMIT 10", {"isbn": '%'+isbn+'%'}).fetchall()
         db.commit()
-        results = [isbn[0] for isbn in query]
-        return jsonify(results)
+        results = [isbn[1] for isbn in query]
+        id_results = [id[0] for id in query]
+        return jsonify({
+            "results": results,
+            "bookids": id_results
+        })
     elif title:
-        query = db.execute("SELECT title FROM imbooks WHERE UPPER(title) LIKE UPPER(:title) LIMIT 10", {"title": '%'+title+'%'}).fetchall()
+        query = db.execute("SELECT bookid, title FROM imbooks WHERE UPPER(title) LIKE UPPER(:title) LIMIT 10", {"title": '%'+title+'%'}).fetchall()
         db.commit()
-        results = [title[0] for title in query]
-        print(f"Results of autocomplete title query: {results}")
-        print(f" Jsonified results: {jsonify(results)}")
-        return jsonify(results)
+        results = [title[1] for title in query]
+        id_results = [id[0] for id in query]
+        print(results)
+        return jsonify({
+            "results": results,
+            "bookids": id_results
+        })
     elif author:
-        query = db.execute("SELECT author FROM imbooks WHERE UPPER(author) LIKE UPPER(:author) LIMIT 10", {"author": '%'+author+'%'}).fetchall()
+        query = db.execute("SELECT bookid, author FROM imbooks WHERE UPPER(author) LIKE UPPER(:author) LIMIT 10", {"author": '%'+author+'%'}).fetchall()
         db.commit()
-        results = [author[0] for author in query]
-        return jsonify(results)
+        results = [author[1] for author in query]
+        id_results = [id[0] for id in query]
+        return jsonify({
+            "results": results,
+            "bookids": id_results
+        })
 
 @app.route("/books", methods=["GET"])
 def books():
+    # To do: update anchor link with bookid using JS 
+
     # Book Page: When users click on a book from the results of 
     # the search page, they should be taken to a book page, 
     # with details about the book: its title, author, publication year, ISBN number,
@@ -83,6 +96,7 @@ def books():
     isbn = request.args.get("isbn")
     title = request.args.get("title")
     author = request.args.get("author")
+    print(f"Request string is: {request.query_string}")
 
     if not isbn and not title and not author:
         return apology("You need to enter isbn, book title or author''s name", 403)
@@ -107,6 +121,14 @@ def books():
     else:
         flash("No such a book")
         return render_template("books.html")
+
+
+@app.route("/comment", methods=["GET","POST"])
+def comment():
+    comment_submission = request.form.get("comment")
+    print(comment_submission)
+    print(request.url)
+    return redirect(request.url)
     
 
 

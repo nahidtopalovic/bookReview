@@ -8,21 +8,37 @@
     <div class="container">
         {% if result %}    
             <div class="row flex-sm-row flex-column">
-                <div class="col-6">
+                <div class="col-2 pt-3">
                     <img class="book-img float-sm-right" src="https://images.unsplash.com/photo-1551300317-58b878a9ff6e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80"  alt="...">
                 </div>
 
-                <div class="col-6">
+                <div class="col-5 pt-3">
                     <h1 class="card-title">{{result[2]}}</h1>
-                    <p class="card-text">Book description</p>
+                    <p class="card-text">Rachel Friedman has always been the consummate good girl who does well in school and plays it safe, so the college grad surprises no one more than herself when, on a whim (and in an effort to escape impending life decisions), she buys a ticket to Ireland, a place she has never visited. There she forms an unlikely bond with a free-spirited Australian girl, a born </p>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item pl-0">Author: {{result[3]}}</li>
                         <li class="list-group-item pl-0">Year of publication: {{result[4]}}</li>
                         <li class="list-group-item pl-0">ISBN: {{result[1]}}</li>
                     </ul>
-                </div>
 
+                                <!-- Show if user logged in -->
+                    <form class="flex-column pt-3 pr-3" action="/comment" method="POST">
+                        <textarea name="comment" rows="2" cols="47"></textarea>
+                        <button type="submit" class="btn btn-dark mt-2">Submit review</button> 
+                    </form>
+                </div>
+                <div class="col-5 pt-3">
+                </div>
             </div>
+            <div class="mt-2 text-center">
+                <h4>Community reviews</h4>
+                <hr class="hr-style-two"> 
+                {% for comment in comments %}
+                    <p>{{comment}}</p>
+                {% endfor %}
+            </div>
+
+
         {% endif %}
     </div> 
 
