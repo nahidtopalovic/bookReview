@@ -76,11 +76,13 @@ def autocomplete():
             "bookids": id_results
         })
     elif author:
-        query = db.execute("SELECT bookid, author FROM imbooks WHERE UPPER(author) LIKE UPPER(:author) LIMIT 10", {"author": '%'+author+'%'}).fetchall()
+        query = db.execute("SELECT bookid, author, title FROM imbooks WHERE UPPER(author) LIKE UPPER(:author) LIMIT 10", {"author": '%'+author+'%'}).fetchall()
         db.commit()
         results = [author[1] for author in query]
         id_results = [id[0] for id in query]
+        books = [book[2] for book in query]
         return jsonify({
+            "books": books,
             "results": results,
             "bookids": id_results
         })
@@ -93,6 +95,8 @@ def books():
     # the search page, they should be taken to a book page, 
     # with details about the book: its title, author, publication year, ISBN number,
     #  and any reviews that users have left for the book on your website.
+
+    # Fix to show all book of the author
     isbn = request.args.get("isbn")
     title = request.args.get("title")
     author = request.args.get("author")
@@ -120,7 +124,8 @@ def books():
         return render_template("books.html", result=result)
     else:
         flash("No such a book")
-        return render_template("books.html")
+        result = False
+        return render_template("books.html", result = result)
 
 
 @app.route("/comment", methods=["GET","POST"])

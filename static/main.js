@@ -4,12 +4,13 @@ window.addEventListener("load", function(){
     title.addEventListener("keyup", function(event){hinter(event, "book_list", "title=")});
 
     let author = document.getElementById('author');
-    author.addEventListener("keyup", function(event){hinter(event, "author_list","author=")})
+    author.addEventListener("keyup", function(event){hinter(event, "author_list", "book_list","author=")})
 
     let isbn = document.getElementById('isbn');
     isbn.addEventListener("keyup", function(event){hinter(event, "isbn_list", "isbn=")})
 
     let anchor = document.getElementById("search-anchor")
+    
 
     // create one global XHR object
     // so we can abort old request when a new one is made
@@ -19,13 +20,17 @@ window.addEventListener("load", function(){
 
 // Autocomplete for form
 
-function hinter(event, className, arg ){
+function hinter(event, className, className2='', arg ){
 
     // retrieve the input element
     let input = event.target;
 
     // retrieve the datalist element
-    let book_list = document.getElementById(className);
+    let prime_list = document.getElementById(className);
+
+    if (className2){
+        let book_list = document.getElementById(className2)
+    }
 
     // minimum num of characters before we start to generate suggestions
     let min_characters = 2;
@@ -42,17 +47,32 @@ function hinter(event, className, arg ){
                 let response = JSON.parse(this.responseText);
 
                 // clear any previously loaded options in the datalist
-                book_list.innerHTML = "";
+                prime_list.innerHTML = "";
 
-                response.forEach(function(item){
+                if (book_list){
+                    book_list.innerHTML = ""
+                }
+
+                response["results"].forEach(function(item){
                     // Create a new <option> element
                     let option = document.createElement('option');
                     option.value = item;
 
                     // attach the option to the datalist element
-                    book_list.appendChild(option);
+                    prime_list.appendChild(option);
 
                 })
+                if (book_list){
+                    response["books"].forEach(function(item){
+                        let option = document.createElement('option');
+                        option.value = item;
+    
+                        // attach the option to the datalist element
+                        book_list.appendChild(option);
+
+                    })
+                }
+
             }
         }
         window.hinterXHR.open("GET", "/autocomplete?"+arg + input.value, true);
