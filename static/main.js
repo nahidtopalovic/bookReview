@@ -8,9 +8,7 @@ window.addEventListener("load", function(){
 
     let isbn = document.getElementById('isbn');
     isbn.addEventListener("keyup", function(event){hinter(event, "isbn_list", "isbn=")})
-
-    let anchor = document.getElementById("search-anchor")
-    
+  
 
     // create one global XHR object
     // so we can abort old request when a new one is made
@@ -20,17 +18,13 @@ window.addEventListener("load", function(){
 
 // Autocomplete for form
 
-function hinter(event, className, className2='', arg ){
+function hinter(event, className, arg ){
 
     // retrieve the input element
     let input = event.target;
 
     // retrieve the datalist element
     let prime_list = document.getElementById(className);
-
-    if (className2){
-        let book_list = document.getElementById(className2)
-    }
 
     // minimum num of characters before we start to generate suggestions
     let min_characters = 2;
@@ -49,10 +43,6 @@ function hinter(event, className, className2='', arg ){
                 // clear any previously loaded options in the datalist
                 prime_list.innerHTML = "";
 
-                if (book_list){
-                    book_list.innerHTML = ""
-                }
-
                 response["results"].forEach(function(item){
                     // Create a new <option> element
                     let option = document.createElement('option');
@@ -62,16 +52,6 @@ function hinter(event, className, className2='', arg ){
                     prime_list.appendChild(option);
 
                 })
-                if (book_list){
-                    response["books"].forEach(function(item){
-                        let option = document.createElement('option');
-                        option.value = item;
-    
-                        // attach the option to the datalist element
-                        book_list.appendChild(option);
-
-                    })
-                }
 
             }
         }

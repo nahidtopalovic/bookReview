@@ -52,37 +52,17 @@ def index():
 
 @app.route("/autocomplete", methods=["GET"])
 def autocomplete():
-    isbn = request.args.get("isbn")
-    title = request.args.get("title")
-    author = request.args.get("author")
+    # Make it work like goodreads search
+    # change it from autocomplete to something else
+    search = request.args.get("title")
 
-    if isbn:
-        query = db.execute("SELECT bookid, isbn FROM imbooks WHERE isbn LIKE :isbn LIMIT 10", {"isbn": '%'+isbn+'%'}).fetchall()
-        db.commit()
-        results = [isbn[1] for isbn in query]
-        id_results = [id[0] for id in query]
-        return jsonify({
-            "results": results,
-            "bookids": id_results
-        })
-    elif title:
-        query = db.execute("SELECT bookid, title FROM imbooks WHERE UPPER(title) LIKE UPPER(:title) LIMIT 10", {"title": '%'+title+'%'}).fetchall()
+    if search:
+        query = db.execute("(SELECT bookid, title FROM imbooks WHERE UPPER(title) LIKE UPPER(:search)) UNION (SELECT bookid, title FROM imbooks WHERE UPPER(author) LIKE UPPER(:search)) UNION (SELECT bookid, title FROM imbooks WHERE UPPER(isbn) LIKE UPPER(:search)) LIMIT 10", {"search": '%'+search+'%'}).fetchall()
         db.commit()
         results = [title[1] for title in query]
         id_results = [id[0] for id in query]
-        print(results)
+        print(f" ################# Results are:{results}")
         return jsonify({
-            "results": results,
-            "bookids": id_results
-        })
-    elif author:
-        query = db.execute("SELECT bookid, author, title FROM imbooks WHERE UPPER(author) LIKE UPPER(:author) LIMIT 10", {"author": '%'+author+'%'}).fetchall()
-        db.commit()
-        results = [author[1] for author in query]
-        id_results = [id[0] for id in query]
-        books = [book[2] for book in query]
-        return jsonify({
-            "books": books,
             "results": results,
             "bookids": id_results
         })
