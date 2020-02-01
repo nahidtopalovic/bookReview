@@ -64,6 +64,7 @@ db.sqlite3-journal
 # Flask stuff:
 instance/
 .webassets-cache
+flask_session/
 
 # Scrapy stuff:
 .scrapy
@@ -127,3 +128,4 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+flask_session/312a19ab70d2038cd36216c8f436d2a4
