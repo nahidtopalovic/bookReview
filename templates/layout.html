@@ -16,7 +16,7 @@
 
         <link href="/static/styles.css" rel="stylesheet">
 
-        <script src="/static/animation.js"></script>
+        <script src="/static/main.js"></script>
         <script src="https://kit.fontawesome.com/f68fa06980.js" crossorigin="anonymous"></script>
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
@@ -26,7 +26,7 @@
 
     </head>
 
-    <body>
+    <body {% block bodyClass %}{% endblock %}>
 
         <nav class="navbar navbar-expand-md navbar-light bg-light border">
             <a class="navbar-brand" href="/" ><i id="brand" class="fas fa-book-open mr-2"></i><span class="blue">NT </span><span class="red">Book reviews</span></a>
@@ -63,7 +63,7 @@
             {% block main %}{% endblock %}
         </main>
 
-        <footer class="small text-center text-black">
+        <footer class="small text-center text-black ">
             Data provided for free by <a href="https://www.goodreads.com/api/">Goodreads</a>.
         </footer>
 

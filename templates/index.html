@@ -4,6 +4,8 @@
     Search for a book
 {% endblock %}
 
+{% block bodyClass %} class="index-body" {% endblock %}
+
 {% block main %}
 
 <div class="jumbotron jumbotron-fluid">
@@ -11,16 +13,13 @@
         <h1 class="display-4">Hello, book lovers!</h1>
         <p class="lead">Here you will find book reviews and ratings. You can also leave your own reviews and read ratings from Goodreads.</p>
         <hr class="my-4">
-        <form action="/books" method="GET">
-            <div class="form-group">
-              <label for="bookquery">Search here!</label>
-              <input type="text" class="form-control" name="bookquery" id="bookquery" placeholder="1984, Little prince">
+        <div class="form-group">
+            <div id="dropdown-search" class="dropdown-content">
+                <input type="text" class="form-control" autocomplete="off" name="title" placeholder="Search for a book by name, author or ISBN" id="title">
+                <div id="alist">
+                </div>
             </div>
-            <button class="btn btn-success btn-lg"  role="button">Search</button>
-        <!-- here it ends -->
-    </div>
-        </form>
-
+        </div>
 </div>
 
 

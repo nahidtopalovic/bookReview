@@ -1,4 +1,4 @@
-body {
+.index-body {
     background-image: url("bg-image1.jpg");
     background-color: #cccccc;
     background-repeat: no-repeat;
@@ -11,4 +11,38 @@ body {
     background: rgb(211, 211, 211); /* This is for ie8 and below */
     background: rgba(211, 211, 211, 0.6); 
  }
+
+ .book-img {
+     border-radius: 8px;
+     max-width: 100%;
+     max-height: 100% 
+ }
+
+ 
+.hr-style-two {
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+}
+
+
+.dropdown-content {
+    background-color: #f6f6f6;
+    min-width: 230px;
+    border-radius: 5px;
+}
+
+#alist a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    }
+
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #f1f1f1} */
+
+
+
    

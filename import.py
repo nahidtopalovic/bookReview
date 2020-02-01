@@ -28,7 +28,7 @@ def main():
                 continue
             
             db.execute("INSERT INTO imbooks(isbn, title, author, year) VALUES (:isbn, :title, :author, :year)", 
-            {"isbn":isbn, "title":title, "author":author, "year":year})
+            {"isbn":str(isbn), "title":title, "author":author, "year":year})
 
         db.commit()
 

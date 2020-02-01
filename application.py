@@ -50,6 +50,55 @@ def index():
 
     return render_template("index.html")
 
+@app.route("/autocomplete", methods=["GET"])
+def autocomplete():
+    # Make it work like goodreads search
+    # change it from autocomplete to something else
+    search = request.args.get("title")
+
+    if search:
+        query = db.execute("(SELECT bookid, title, author FROM imbooks WHERE UPPER(title) LIKE UPPER(:search)) UNION (SELECT bookid, title, author FROM imbooks WHERE UPPER(author) LIKE UPPER(:search)) UNION (SELECT bookid, title, author FROM imbooks WHERE UPPER(isbn) LIKE UPPER(:search)) LIMIT 5", {"search": '%'+search+'%'}).fetchall()
+        db.commit()
+        print(f"/n Query result is: {query}/n")
+        results = [[row[0],row[1] + " by "  + row[2]]  for row in query]
+        id_results = [id[0] for id in query]
+        return jsonify({
+            "results": results,
+            "bookids": id_results
+        })
+
+@app.route("/books/<int:book_id>", methods=["GET"])
+def books(book_id):
+
+    # Book Page: When users click on a book from the results of 
+    # the search page, they should be taken to a book page, 
+    # with details about the book: its title, author, publication year, ISBN number,
+    #  and any reviews that users have left for the book on your website.
+
+    if book_id:
+        query = db.execute("SELECT * FROM imbooks WHERE bookid = :book_id", {"book_id": book_id}).fetchone()
+        db.commit()
+        result = query
+        print(f" Result of book query is: {result}")
+    
+    if result:
+        return render_template("books.html", result=result)
+    else:
+        flash("No such a book")
+        result = False
+        return render_template("books.html", result = result)
+
+
+@app.route("/comment", methods=["GET","POST"])
+def comment():
+    comment_submission = request.form.get("comment")
+    print(comment_submission)
+    print(request.url)
+    return redirect(request.url)
+    
+
+
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
     """Log user in"""
