@@ -13,14 +13,13 @@
         <h1 class="display-4">Hello, book lovers!</h1>
         <p class="lead">Here you will find book reviews and ratings. You can also leave your own reviews and read ratings from Goodreads.</p>
         <hr class="my-4">
-        <form action="/books" method="GET">
-            <div class="form-group">
-                <input type="text" class="form-control" name="title" id="title" list="book_list" autocomplete="off" placeholder="Search for a book by name, author or ISBN">
-                <datalist id="book_list"></datalist>
+        <div class="form-group">
+            <div id="dropdown-search" class="dropdown-content">
+                <input type="text" class="form-control" autocomplete="off" name="title" placeholder="Search for a book by name, author or ISBN" id="title">
+                <div id="alist">
+                </div>
             </div>
-            <button class="btn btn-dark btn-lg" id="search-anchor" >Show book info!</button>
-        </form>
-
+        </div>
 </div>
 
 

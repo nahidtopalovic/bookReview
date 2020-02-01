@@ -1,7 +1,7 @@
 window.addEventListener("load", function(){
     // Add a keyup event listener to our input element
     let title = document.getElementById('title');
-    title.addEventListener("keyup", function(event){hinter(event, "book_list", "title=")});
+    title.addEventListener("keyup", function(event){hinter(event, "title=")});
   
     // create one global XHR object
     // so we can abort old request when a new one is made
@@ -11,13 +11,13 @@ window.addEventListener("load", function(){
 
 // Autocomplete for form
 
-function hinter(event, className, arg ){
+function hinter(event, arg ){
 
     // retrieve the input element
     let input = event.target;
 
-    // retrieve the datalist element
-    let prime_list = document.getElementById(className);
+    // retrive div of anchor links 
+    alist = document.getElementById("alist");
 
     // minimum num of characters before we start to generate suggestions
     let min_characters = 2;
@@ -34,15 +34,15 @@ function hinter(event, className, arg ){
                 let response = JSON.parse(this.responseText);
 
                 // clear any previously loaded options in the datalist
-                prime_list.innerHTML = "";
+                alist.innerHTML = "";
 
-                response["results"].forEach(function(item){
+                response["results"].forEach(function(title){
                     // Create a new <option> element
-                    let option = document.createElement('option');
-                    option.value = item;
-
-                    // attach the option to the datalist element
-                    prime_list.appendChild(option);
+                    let link = document.createElement('a');
+                    link.innerHTML = title[1];
+                    link.href = "books/"+ title[0]
+                    // attach the option to the anchor list element
+                    alist.appendChild(link);
 
                 })
 
