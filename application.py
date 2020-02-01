@@ -57,9 +57,10 @@ def autocomplete():
     search = request.args.get("title")
 
     if search:
-        query = db.execute("(SELECT bookid, title FROM imbooks WHERE UPPER(title) LIKE UPPER(:search)) UNION (SELECT bookid, title FROM imbooks WHERE UPPER(author) LIKE UPPER(:search)) UNION (SELECT bookid, title FROM imbooks WHERE UPPER(isbn) LIKE UPPER(:search)) LIMIT 10", {"search": '%'+search+'%'}).fetchall()
+        query = db.execute("(SELECT bookid, title, author FROM imbooks WHERE UPPER(title) LIKE UPPER(:search)) UNION (SELECT bookid, title, author FROM imbooks WHERE UPPER(author) LIKE UPPER(:search)) UNION (SELECT bookid, title, author FROM imbooks WHERE UPPER(isbn) LIKE UPPER(:search)) LIMIT 10", {"search": '%'+search+'%'}).fetchall()
         db.commit()
-        results = [title[1] for title in query]
+        print(f"/n Query result is: {query}/n")
+        results = [row[1] + " by "  + row[2]  for row in query]
         id_results = [id[0] for id in query]
         print(f" ################# Results are:{results}")
         return jsonify({

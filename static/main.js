@@ -2,14 +2,7 @@ window.addEventListener("load", function(){
     // Add a keyup event listener to our input element
     let title = document.getElementById('title');
     title.addEventListener("keyup", function(event){hinter(event, "book_list", "title=")});
-
-    let author = document.getElementById('author');
-    author.addEventListener("keyup", function(event){hinter(event, "author_list", "book_list","author=")})
-
-    let isbn = document.getElementById('isbn');
-    isbn.addEventListener("keyup", function(event){hinter(event, "isbn_list", "isbn=")})
   
-
     // create one global XHR object
     // so we can abort old request when a new one is made
     window.hinterXHR = new XMLHttpRequest();
