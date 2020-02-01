@@ -59,12 +59,10 @@ def autocomplete():
     if search:
         query = db.execute("(SELECT bookid, title, author FROM imbooks WHERE UPPER(title) LIKE UPPER(:search)) UNION (SELECT bookid, title, author FROM imbooks WHERE UPPER(author) LIKE UPPER(:search)) UNION (SELECT bookid, title, author FROM imbooks WHERE UPPER(isbn) LIKE UPPER(:search)) LIMIT 5", {"search": '%'+search+'%'}).fetchall()
         db.commit()
-        print(f"/n Query result is: {query}/n")
+        # saving id , title + author in a list 
         results = [[row[0],row[1] + " by "  + row[2]]  for row in query]
-        id_results = [id[0] for id in query]
         return jsonify({
             "results": results,
-            "bookids": id_results
         })
 
 @app.route("/books/<int:book_id>", methods=["GET"])
@@ -75,26 +73,44 @@ def books(book_id):
     # with details about the book: its title, author, publication year, ISBN number,
     #  and any reviews that users have left for the book on your website.
 
+
     if book_id:
         query = db.execute("SELECT * FROM imbooks WHERE bookid = :book_id", {"book_id": book_id}).fetchone()
+        reviews_query = db.execute("SELECT * FROM reviews WHERE related_book = :book_id", {"book_id": book_id}).fetchall
         db.commit()
+        # query from reviews table is not working properly
+        
+        print(f" Reviews query: {reviews_query}")
+        # reviews = [row for row in reviews_query]
+        # print(f"Reviews are {reviews}")
         result = query
-        print(f" Result of book query is: {result}")
     
     if result:
-        return render_template("books.html", result=result)
+        return render_template("books.html", result=result, bookid=book_id)
     else:
         flash("No such a book")
         result = False
-        return render_template("books.html", result = result)
+        return render_template("books.html", result = result, bookid=book_id)
 
 
-@app.route("/comment", methods=["GET","POST"])
-def comment():
-    comment_submission = request.form.get("comment")
-    print(comment_submission)
-    print(request.url)
-    return redirect(request.url)
+@app.route("/books/<int:book_id>", methods=["POST"])
+def comment(book_id):
+    user_id = session["user_id"]
+    comment = request.form.get("comment")
+    query = db.execute("SELECT * FROM reviews WHERE author_id = :author AND related_book = :bookid",{"author": user_id, "bookid": book_id}).fetchone
+    db.commit()
+    print(f" Query from books is: {query}")
+    
+    if query:
+        flash("You have already posted review!")
+        return redirect("/books/" + str(book_id))
+    else: 
+        db.execute("INSERT INTO reviews (related_book, comment, author_id) VALUES(:book_id, :comment, :author_id)",
+        {"book_id": book_id, "comment": comment, "author_id": user_id})
+
+        flash("Your review has been added!")
+        return redirect("/books/" + str(book_id))
+    
     
 
 
