@@ -76,17 +76,14 @@ def books(book_id):
 
     if book_id:
         query = db.execute("SELECT * FROM imbooks WHERE bookid = :book_id", {"book_id": book_id}).fetchone()
-        reviews_query = db.execute("SELECT * FROM reviews WHERE related_book = :book_id", {"book_id": book_id}).fetchall
+        reviews_query = db.execute("SELECT * FROM reviews WHERE related_book = :book_id", {"book_id": book_id}).fetchall()
         db.commit()
-        # query from reviews table is not working properly
-        
-        print(f" Reviews query: {reviews_query}")
-        # reviews = [row for row in reviews_query]
-        # print(f"Reviews are {reviews}")
+        reviews = [row for row in reviews_query]
+
         result = query
     
     if result:
-        return render_template("books.html", result=result, bookid=book_id)
+        return render_template("books.html", result=result, bookid=book_id, reviews=reviews)
     else:
         flash("No such a book")
         result = False
@@ -94,19 +91,20 @@ def books(book_id):
 
 
 @app.route("/books/<int:book_id>", methods=["POST"])
+@login_required
 def comment(book_id):
     user_id = session["user_id"]
     comment = request.form.get("comment")
-    query = db.execute("SELECT * FROM reviews WHERE author_id = :author AND related_book = :bookid",{"author": user_id, "bookid": book_id}).fetchone
+    query = db.execute("SELECT * FROM reviews WHERE author_id = :author AND related_book = :bookid",{"author": user_id, "bookid": book_id}).fetchall()
+    username_query = db.execute("SELECT username FROM users WHERE id = :user_id", {"user_id": session["user_id"]}).fetchone()
     db.commit()
-    print(f" Query from books is: {query}")
     
     if query:
         flash("You have already posted review!")
         return redirect("/books/" + str(book_id))
     else: 
-        db.execute("INSERT INTO reviews (related_book, comment, author_id) VALUES(:book_id, :comment, :author_id)",
-        {"book_id": book_id, "comment": comment, "author_id": user_id})
+        db.execute("INSERT INTO reviews (related_book, comment, author_id, username) VALUES(:book_id, :comment, :author_id, :username)", {"book_id": book_id, "comment": comment, "author_id": user_id, "username": username_query[0]})
+        db.commit()
 
         flash("Your review has been added!")
         return redirect("/books/" + str(book_id))

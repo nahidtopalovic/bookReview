@@ -7,6 +7,19 @@
     background-position: center; 
    }
 
+.main-search {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    color:#f9f1e9;
+    text-align: center;
+    font-weight: 200;
+    top: 30%;
+    left: 50%;
+    -webkit-transform: translate3d(-50%,-50%,0);
+    transform: translate3d(-50%,-50%,0);
+}
+
 .jumbotron {
     background: rgb(211, 211, 211); /* This is for ie8 and below */
     background: rgba(211, 211, 211, 0.6); 
@@ -37,12 +50,13 @@
     padding: 12px 16px;
     text-decoration: none;
     display: block;
+    text-align: left;
     }
 
+.comment-author {
+    text-align: right;
+    
+}
 
 /* Change color of dropdown links on hover */
-.dropdown-content a:hover {background-color: #f1f1f1} */
-
-
-
-   
+.dropdown-content a:hover {background-color: #f1f1f1}

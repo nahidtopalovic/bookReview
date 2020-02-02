@@ -4,23 +4,36 @@
     Search for a book
 {% endblock %}
 
-{% block bodyClass %} class="index-body" {% endblock %}
+{% block bodyClass %} class="" {% endblock %}
 
 {% block main %}
 
-<div class="jumbotron jumbotron-fluid">
-    <div class="container">
-        <h1 class="display-4">Hello, book lovers!</h1>
-        <p class="lead">Here you will find book reviews and ratings. You can also leave your own reviews and read ratings from Goodreads.</p>
-        <hr class="my-4">
-        <div class="form-group">
-            <div id="dropdown-search" class="dropdown-content">
-                <input type="text" class="form-control" autocomplete="off" name="title" placeholder="Search for a book by name, author or ISBN" id="title">
-                <div id="alist">
+<div class="demo-1">
+    <div class="content">
+        <div id="large-header" class="large-header">
+            <canvas id="demo-canvas"></canvas>
+            <div class="container main-search">
+                <h1 class="display-4">Hello, book lovers!</h1>
+                <p class="lead">Here you will find book reviews and ratings. You can also leave your own reviews and read ratings from Goodreads.</p>
+                <hr class="my-4">
+                <div class="form-group">
+                    <div id="dropdown-search" class="dropdown-content">
+                        <input type="text" class="form-control" autocomplete="off" name="title" placeholder="Search for a book by name, author or ISBN" id="title">
+                        <div id="alist"></div>
+                    </div>
                 </div>
             </div>
+            
         </div>
+        
+    </div>
+
 </div>
+<script src="static/js/TweenLite.min.js"></script>
+<script src="static/js/EasePack.min.js"></script>
+<script src="static/js/rAF.js"></script>
+<script src="static/js/demo-1.js"></script>
+ 
 
 
 {% endblock %}
