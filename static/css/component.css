@@ -2,16 +2,16 @@
 .large-header {
 	position: relative;
 	width: 100%;
-	background: #333;
+	background: transparent
 	overflow: hidden;
 	background-size: cover;
 	background-position: center center;
 	z-index: 1;
 }
 
-.demo-1 .large-header {
+/* .demo-1 .large-header {
 	background-image: url('../bg-image1.jpg');
-}
+} */
 
 
 .main-title {

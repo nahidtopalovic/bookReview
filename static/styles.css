@@ -1,3 +1,25 @@
+
+li.nav-item {
+    float: left;
+    position: relative;
+    overflow: hidden;
+  }
+
+li.nav-item:hover::after {
+    width: 100%;
+  }
+  
+li.nav-item::after {
+    background-color: #03a5fc;
+    content: "";
+    width: 0;
+    height: 3px;
+    left: 0;
+    bottom: 0;
+    transition: width 0.35s ease 0s;
+    position: absolute;
+  }
+
 .index-body {
     background-image: url("bg-image1.jpg");
     background-color: #cccccc;
@@ -13,7 +35,7 @@
     padding: 0;
     color:#f9f1e9;
     text-align: center;
-    font-weight: 200;
+    text-shadow: 0.5px 0.5px black;
     top: 30%;
     left: 50%;
     -webkit-transform: translate3d(-50%,-50%,0);
