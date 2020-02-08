@@ -93,6 +93,7 @@ def books(book_id):
 @app.route("/books/<int:book_id>", methods=["POST"])
 @login_required
 def comment(book_id):
+    # UBACI STAR RATING u db
     user_id = session["user_id"]
     comment = request.form.get("comment")
     query = db.execute("SELECT * FROM reviews WHERE author_id = :author AND related_book = :bookid",{"author": user_id, "bookid": book_id}).fetchall()
