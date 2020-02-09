@@ -52,8 +52,13 @@
                 <h4>Community reviews</h4>
                 <hr class="hr-style-two"> 
                 {% for review in reviews %}
-                    <p class="comment">{{review[2]}}</p>
-                    <p class="comment-author">Reviewed by: {{review[4]}}</p>
+                    <div class="row">
+                        <p class="comment col-9 text-justify">{{review[2]}}</p>
+                        <div class="col-3 d-flex flex-column align-content-end justify-content-between">
+                            <div class="stars">{{'☆'*review[5]}} </div>
+                            <p class="comment-author">Reviewed by: {{review[4]}}</p>
+                        </div>
+                    </div>
                     <hr class="hr-style-two"> 
                 {% endfor %}
             </div>

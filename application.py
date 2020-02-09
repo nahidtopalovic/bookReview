@@ -79,7 +79,6 @@ def books(book_id):
         reviews_query = db.execute("SELECT * FROM reviews WHERE related_book = :book_id", {"book_id": book_id}).fetchall()
         db.commit()
         reviews = [row for row in reviews_query]
-
         result = query
     
     if result:
@@ -93,9 +92,14 @@ def books(book_id):
 @app.route("/books/<int:book_id>", methods=["POST"])
 @login_required
 def comment(book_id):
-    # UBACI STAR RATING u db
     user_id = session["user_id"]
     comment = request.form.get("comment")
+    # if user forgot to add rating
+    star_rating = request.form.get("star")
+
+    if star_rating == None:
+        star_rating = 0
+
     query = db.execute("SELECT * FROM reviews WHERE author_id = :author AND related_book = :bookid",{"author": user_id, "bookid": book_id}).fetchall()
     username_query = db.execute("SELECT username FROM users WHERE id = :user_id", {"user_id": session["user_id"]}).fetchone()
     db.commit()
@@ -104,7 +108,7 @@ def comment(book_id):
         flash("You have already posted review!")
         return redirect("/books/" + str(book_id))
     else: 
-        db.execute("INSERT INTO reviews (related_book, comment, author_id, username) VALUES(:book_id, :comment, :author_id, :username)", {"book_id": book_id, "comment": comment, "author_id": user_id, "username": username_query[0]})
+        db.execute("INSERT INTO reviews (related_book, comment, author_id, username, star_rating) VALUES(:book_id, :comment, :author_id, :username, :star_rating)", {"book_id": book_id, "comment": comment, "author_id": user_id, "username": username_query[0], "star_rating": star_rating})
         db.commit()
 
         flash("Your review has been added!")

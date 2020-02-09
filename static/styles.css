@@ -141,3 +141,9 @@ li.nav-item::after {
     left: 0;
     color: #FFD700;
 }
+
+.stars {
+    content: "\2605";
+    color: #FFD700;
+    text-align: right;
+}
