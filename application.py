@@ -75,14 +75,22 @@ def books(book_id):
 
 
     if book_id:
+        user_id = session["user_id"]
         query = db.execute("SELECT * FROM imbooks WHERE bookid = :book_id", {"book_id": book_id}).fetchone()
         reviews_query = db.execute("SELECT * FROM reviews WHERE related_book = :book_id", {"book_id": book_id}).fetchall()
+        userHasReviewed = db.execute("SELECT * FROM reviews WHERE author_id = :author AND related_book = :bookid",{"author": user_id, "bookid": book_id}).fetchall()
         db.commit()
+
+        if userHasReviewed:
+            userReviewed = True
+        else:
+            userReviewed = False
+
         reviews = [row for row in reviews_query]
         result = query
     
     if result:
-        return render_template("books.html", result=result, bookid=book_id, reviews=reviews)
+        return render_template("books.html", result=result, bookid=book_id, reviews=reviews, userReviewed = userReviewed)
     else:
         flash("No such a book")
         result = False

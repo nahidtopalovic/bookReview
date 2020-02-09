@@ -23,26 +23,27 @@
                         <li class="list-group-item pl-0">ISBN: {{result[1]}}</li>
                     </ul>
 
-                                <!-- Show if user logged in -->
-                    <form id="review-form" class="flex-column pt-3 pr-3" action="/books/{{bookid}}" method="POST">
-                        <textarea name="comment" rows="2" cols="47"></textarea>
-                        <div class="float-left mt-1 mr-2 pt-1">Your rating:</div>
-                        <div class="rating d-inline-block mt-2">
-                            <input id="star5" name="star" type="radio" value="5" class="radio-btn hide" />
-                            <label for="star5">☆</label>
-                            <input id="star4" name="star" type="radio" value="4" class="radio-btn hide" />
-                            <label for="star4">☆</label>
-                            <input id="star3" name="star" type="radio" value="3" class="radio-btn hide" />
-                            <label for="star3">☆</label>
-                            <input id="star2" name="star" type="radio" value="2" class="radio-btn hide" />
-                            <label for="star2">☆</label>
-                            <input id="star1" name="star" type="radio" value="1" class="radio-btn hide" />
-                            <label for="star1">☆</label>
-                            <div class="clear"></div>
-                        </div>
-                        
-                        <button type="submit" id="btn-submit" class="btn btn-dark mt-2" style="display: block">Submit review</button> 
-                    </form>
+                    {% if not userReviewed %}
+                        <form id="review-form" class="flex-column pt-3 pr-3" action="/books/{{bookid}}" method="POST">
+                            <textarea name="comment" rows="2" cols="47"></textarea>
+                            <div class="float-left mt-1 mr-2 pt-1">Your rating:</div>
+                            <div class="rating d-inline-block mt-2">
+                                <input id="star5" name="star" type="radio" value="5" class="radio-btn hide" />
+                                <label for="star5">☆</label>
+                                <input id="star4" name="star" type="radio" value="4" class="radio-btn hide" />
+                                <label for="star4">☆</label>
+                                <input id="star3" name="star" type="radio" value="3" class="radio-btn hide" />
+                                <label for="star3">☆</label>
+                                <input id="star2" name="star" type="radio" value="2" class="radio-btn hide" />
+                                <label for="star2">☆</label>
+                                <input id="star1" name="star" type="radio" value="1" class="radio-btn hide" />
+                                <label for="star1">☆</label>
+                                <div class="clear"></div>
+                            </div>
+                            
+                            <button type="submit" id="btn-submit" class="btn btn-dark mt-2" style="display: block">Submit review</button> 
+                        </form>
+                    {% endif %}
                    
                 </div>
                 <div class="col-5 pt-3">
