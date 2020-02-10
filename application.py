@@ -14,8 +14,6 @@ from helpers import login_required, apology, lookup, lookupGoogleBooks
 
 # LOAD ENV VARIABLES
 load_dotenv() 
-# GOODREADS API KEY
-key = os.getenv("KEY")
 
 app = Flask(__name__)
 
