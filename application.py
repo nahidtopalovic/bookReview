@@ -9,7 +9,7 @@ from werkzeug.exceptions import default_exceptions, HTTPException, InternalServe
 from werkzeug.security import check_password_hash, generate_password_hash
 from dotenv import load_dotenv
 
-from helpers import login_required, apology
+from helpers import login_required, apology, lookup
 
 
 # LOAD ENV VARIABLES
@@ -68,10 +68,10 @@ def autocomplete():
 @app.route("/books/<int:book_id>", methods=["GET"])
 def books(book_id):
 
-    # Book Page: When users click on a book from the results of 
-    # the search page, they should be taken to a book page, 
-    # with details about the book: its title, author, publication year, ISBN number,
-    #  and any reviews that users have left for the book on your website.
+    # TODO:
+    # 1. On your book page, you should also display (if available) the average rating and number of ratings the work has received
+    #    from Goodreads.
+    # 2. Add book cover and description instead of default ones
 
 
     if book_id:
@@ -88,9 +88,17 @@ def books(book_id):
 
         reviews = [row for row in reviews_query]
         result = query
+
+        book_isbn = result[1]
+        data = lookup(book_isbn)
+        book_data = {
+            "average_rating": data["books"][0]["average_rating"],
+            "ratings_count": data["books"][0]["ratings_count"]
+             }
+        
     
     if result:
-        return render_template("books.html", result=result, bookid=book_id, reviews=reviews, userReviewed = userReviewed)
+        return render_template("books.html", result=result, bookid=book_id, reviews=reviews, userReviewed = userReviewed, book_data = book_data)
     else:
         flash("No such a book")
         result = False

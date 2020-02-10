@@ -1,3 +1,7 @@
+import os
+import requests
+import urllib.parse
+
 from flask import redirect, render_template, request, session
 from functools import wraps
 
@@ -28,3 +32,23 @@ def apology(message, code=400):
             s = s.replace(old, new)
         return s
     return render_template("apology.html", top=code, bottom=escape(message)), code
+
+def lookup(isbn):
+    """Look up book on Goodreads."""
+
+    # TODO
+
+    # Contact API
+    try:
+        api_key = os.environ.get("KEY")
+        response = requests.get(f"https://www.goodreads.com/book/review_counts.json?isbns={isbn}&key={api_key}")
+        response.raise_for_status()
+    except requests.RequestException:
+        return None
+
+    # Parse response
+    try:
+        data = response.json()
+        return data
+    except (KeyError, TypeError, ValueError):
+        return None

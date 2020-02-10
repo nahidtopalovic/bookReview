@@ -21,6 +21,8 @@
                         <li class="list-group-item pl-0">Author: {{result[3]}}</li>
                         <li class="list-group-item pl-0">Year of publication: {{result[4]}}</li>
                         <li class="list-group-item pl-0">ISBN: {{result[1]}}</li>
+                        <li class="list-group-item pl-0">Average rating: {{book_data["average_rating"]}}</li>
+                        <li class="list-group-item pl-0">Ratings count: {{book_data["ratings_count"]}}</li>
                     </ul>
 
                     {% if not userReviewed %}
