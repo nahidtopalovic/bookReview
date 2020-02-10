@@ -36,7 +36,6 @@ def apology(message, code=400):
 def lookup(isbn):
     """Look up book on Goodreads."""
 
-    # TODO
 
     # Contact API
     try:
@@ -52,3 +51,31 @@ def lookup(isbn):
         return data
     except (KeyError, TypeError, ValueError):
         return None
+
+def lookupGoogleBooks(bookname):
+    """Look up book on Google Books."""
+
+    # Contact API
+    try:
+        response = requests.get(f"https://www.googleapis.com/books/v1/volumes?q={urllib.parse.quote_plus(bookname)}")
+        response.raise_for_status()
+    except requests.RequestException:
+        return None
+
+    # Parse response
+    try:
+        data = response.json()
+        # print(f"Data from api is: {data}")
+        data1 = data["items"][0]["volumeInfo"]["description"]
+        data2 = data["items"][0]["volumeInfo"]["imageLinks"]["thumbnail"]
+
+        print(f"Data 1 and 2 is {data1}")
+
+        return {
+            "description": data["items"][0]["volumeInfo"]["description"],
+            "thumbnail": data["items"][0]["volumeInfo"]["imageLinks"]["thumbnail"]
+        }
+    except (KeyError, TypeError, ValueError):
+        return None
+
+        

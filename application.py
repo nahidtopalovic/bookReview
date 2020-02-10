@@ -9,7 +9,7 @@ from werkzeug.exceptions import default_exceptions, HTTPException, InternalServe
 from werkzeug.security import check_password_hash, generate_password_hash
 from dotenv import load_dotenv
 
-from helpers import login_required, apology, lookup
+from helpers import login_required, apology, lookup, lookupGoogleBooks
 
 
 # LOAD ENV VARIABLES
@@ -89,16 +89,22 @@ def books(book_id):
         reviews = [row for row in reviews_query]
         result = query
 
+        # Getting data from Goodreads API
         book_isbn = result[1]
         data = lookup(book_isbn)
         book_data = {
             "average_rating": data["books"][0]["average_rating"],
             "ratings_count": data["books"][0]["ratings_count"]
              }
-        
+
+        # Receiving data from GoogleBooks API
+        # Book description and thumbnail
+        bookname = result[2]
+        google_data = lookupGoogleBooks(bookname)
+        print(f"GOogle data is: {google_data}")      
     
     if result:
-        return render_template("books.html", result=result, bookid=book_id, reviews=reviews, userReviewed = userReviewed, book_data = book_data)
+        return render_template("books.html", result=result, bookid=book_id, reviews=reviews, userReviewed = userReviewed, book_data = book_data, google_data = google_data)
     else:
         flash("No such a book")
         result = False
