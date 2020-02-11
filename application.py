@@ -38,6 +38,7 @@ db = scoped_session(sessionmaker(bind=engine))
 
 
 @app.route("/")
+@login_required
 def index():
     """Index page"""
 
@@ -59,6 +60,7 @@ def autocomplete():
         })
 
 @app.route("/books/<int:book_id>", methods=["GET"])
+@login_required
 def books(book_id):
 
     # TODO:
