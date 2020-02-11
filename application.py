@@ -29,7 +29,7 @@ def after_request(response):
     return response
 
 # Check for environment variable
-if not os.getenv("DATABASE_URL"):
+if not os.environ.get("DATABASE_URL"):
     raise RuntimeError("DATABASE_URL is not set")
 
 # Configure session to use filesystem
@@ -238,4 +238,8 @@ def errorhandler(e):
 # Listen for errors
 for code in default_exceptions:
     app.errorhandler(code)(errorhandler)
+
+if __name__ == '__main__':
+    # Threaded option to enable multiple instances for multiple user access support
+    app.run(threaded=True, port=5000)
 
