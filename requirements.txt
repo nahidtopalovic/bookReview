@@ -5,3 +5,4 @@ SQLAlchemy
 requests
 gunicorn
 werkzeug
+werkzeug.contrib
