@@ -93,8 +93,7 @@ def books(book_id):
         # Receiving data from GoogleBooks API
         # Book description and thumbnail
         bookname = result[2]
-        google_data = lookupGoogleBooks(bookname)
-        print(f"GOogle data is: {google_data}")      
+        google_data = lookupGoogleBooks(bookname)    
     
     if result:
         return render_template("books.html", result=result, bookid=book_id, reviews=reviews, userReviewed = userReviewed, book_data = book_data, google_data = google_data)
