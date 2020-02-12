@@ -15,6 +15,9 @@ app = Flask(__name__)
 # Ensure templates are auto-reloaded
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 
+# Debug mode switch
+app.config['DEBUG'] = os.environ.get('DEBUG', False)
+
 # Ensure responses aren't cached
 # @app.after_request
 # def after_request(response):
@@ -31,6 +34,7 @@ if not os.environ.get("DATABASE_URL"):
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
+
 
 # Set up database
 engine = create_engine(os.getenv("DATABASE_URL"))
@@ -237,5 +241,5 @@ for code in default_exceptions:
 
 if __name__ == '__main__':
     # Threaded option to enable multiple instances for multiple user access support
-    app.run(threaded=True, port=5000)
+    app.run(threaded=True)
 
