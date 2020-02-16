@@ -7,8 +7,15 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 from werkzeug.security import check_password_hash, generate_password_hash
+from dotenv import load_dotenv
 
 from helpers import login_required, apology, lookup, lookupGoogleBooks
+
+
+
+
+# LOAD ENV VARIABLES
+load_dotenv() 
 
 app = Flask(__name__)
 

@@ -7,3 +7,4 @@ gunicorn
 Werkzeug==0.16.0
 Jinja2==2.10.3
 urllib3==1.22
+python-dotenv
