@@ -49,7 +49,6 @@ db = scoped_session(sessionmaker(bind=engine))
 
 
 @app.route("/")
-@login_required
 def index():
     """Index page"""
 
@@ -71,17 +70,14 @@ def autocomplete():
         })
 
 @app.route("/books/<int:book_id>", methods=["GET"])
-@login_required
 def books(book_id):
 
-    # TODO:
-    # 1. On your book page, you should also display (if available) the average rating and number of ratings the work has received
-    #    from Goodreads.
-    # 2. Add book cover and description instead of default ones
-
-
     if book_id:
-        user_id = session["user_id"]
+        try:
+            user_id = session["user_id"]
+        except:
+            user_id = None
+            
         query = db.execute("SELECT * FROM imbooks WHERE bookid = :book_id", {"book_id": book_id}).fetchone()
         reviews_query = db.execute("SELECT * FROM reviews WHERE related_book = :book_id", {"book_id": book_id}).fetchall()
         userHasReviewed = db.execute("SELECT * FROM reviews WHERE author_id = :author AND related_book = :bookid",{"author": user_id, "bookid": book_id}).fetchall()
