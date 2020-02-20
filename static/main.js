@@ -1,3 +1,8 @@
+$(document).ready(function() {
+    document.getElementsByTagName("html")[0].style.visibility = "visible";
+  });
+
+
 
 window.addEventListener("load", function(){
     // Add a keyup event listener to our input element
@@ -42,6 +47,7 @@ function hinter(event, arg ){
                     let link = document.createElement('a');
                     link.innerHTML = title[1];
                     link.href = "books/"+ title[0]
+                    link.classList.add("hvr-underline-reveal")
                     // attach the option to the anchor list element
                     alist.appendChild(link);
 

@@ -1,3 +1,5 @@
+html { visibility:hidden; }
+
 body {
 	background: #fff;
 	color: #383a3c;
@@ -156,3 +158,5 @@ li.nav-item::after {
     color: #FFD700;
     text-align: right;
 }
+
+
