@@ -56,8 +56,6 @@ def index():
 
 @app.route("/autocomplete", methods=["GET"])
 def autocomplete():
-    # Make it work like goodreads search
-    # change it from autocomplete to something else
     search = request.args.get("title")
 
     if search:
@@ -117,10 +115,8 @@ def api():
 
 
 @app.route("/api/<isbn>", methods=["GET"])
-@login_required
 def api_fetch(isbn):
-    # If users make a GET request to your website’s /api/<isbn> route, where <isbn> is an ISBN number,
-    # your website should return a JSON response containing the book’s title, author, publication date, ISBN number, review count, and average score.
+    # Return a JSON response containing the book’s title, author, publication date, ISBN number, review count, and average score.
 
     if isbn:
         try:
