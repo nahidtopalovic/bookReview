@@ -111,6 +111,42 @@ def books(book_id):
         result = False
         return render_template("books.html", result = result, bookid=book_id)
 
+@app.route("/api", methods=["GET"])
+def api():
+    return render_template("api.html")
+
+
+@app.route("/api/<isbn>", methods=["GET"])
+@login_required
+def api_fetch(isbn):
+    # If users make a GET request to your website’s /api/<isbn> route, where <isbn> is an ISBN number,
+    # your website should return a JSON response containing the book’s title, author, publication date, ISBN number, review count, and average score.
+
+    if isbn:
+        try:
+            user_id = session["user_id"]
+        except:
+            user_id = None
+            
+        query = db.execute("SELECT * FROM imbooks WHERE isbn = :isbn", {"isbn": isbn}).fetchone()
+        db.commit()
+
+        # Getting data from Goodreads API
+        data = lookup(query[1])
+        book_data = {
+            "average_rating": data["books"][0]["average_rating"],
+            "ratings_count": data["books"][0]["ratings_count"]
+             }
+
+    return jsonify({
+    "title": query[2],
+    "author": query[3],
+    "year": query[4],
+    "isbn": query[1],
+    "review_count": book_data["ratings_count"],
+    "average_score": book_data["average_rating"]
+    })
+
 
 @app.route("/books/<int:book_id>", methods=["POST"])
 @login_required
