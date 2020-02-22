@@ -1,9 +1,3 @@
-$(document).ready(function() {
-    document.getElementsByTagName("html")[0].style.visibility = "visible";
-  });
-
-
-
 window.addEventListener("load", function(){
     // Add a keyup event listener to our input element
     let title = document.getElementById('title');
