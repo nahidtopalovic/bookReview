@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    API
+{% endblock %}
+
+{% block bodyClass %}  {% endblock %}
+
+{% block main %}
+
+    <div class="container mt-3">
+        <h1> How to use BookReview's API</h1>
+        <p mt-2> Make a request to route <strong>/api/isbn</strong> where isbn is an ISBN number. Website will return JSON response containing the book's title, author, publication date, ISBN number, review count and average score.</p>
+
+        <p>Resulting JSON will follow the format:</p>
+        <pre>
+            <code>
+                {
+                    "title": "1984",
+                    "author": "George Orwell",
+                    "year": 1949,
+                    "isbn": "1632168146",
+                    "review_count": 28,
+                    "average_score": 5.0
+                }
+                
+            </code>
+        </pre>
+
+
+
+    </div>
+
+
+
+{% endblock %}
